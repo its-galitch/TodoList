@@ -1,0 +1,7 @@
+<?import javafx.scene.layout.BorderPane?>
+
+
+<?import javafx.scene.control.DialogPane?>
+<DialogPane fx:controller="com.itzhakGalich.toDoList.DialogController"
+            xmlns:fx="http://javafx.com/fxml">
+</DialogPane>
