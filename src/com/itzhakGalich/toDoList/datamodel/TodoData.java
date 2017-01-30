@@ -41,10 +41,10 @@ public class TodoData
     }
 
 
-    public void setTodoItems(List<ToDoItem> todoItems)
-    {
-        this.todoItems = todoItems;
-    }
+//    public void setTodoItems(List<ToDoItem> todoItems)
+//    {
+//        this.todoItems = todoItems;
+//    }
 
     public void loadTodoItems() throws IOException
     {

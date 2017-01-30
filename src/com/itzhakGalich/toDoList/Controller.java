@@ -5,17 +5,19 @@ import com.itzhakGalich.toDoList.datamodel.TodoData;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Controller
 {
@@ -28,30 +30,12 @@ public class Controller
     @FXML
     Label deadLineLabel;
 
+    @FXML
+    private BorderPane mainBorderPane;
+
     public void  initialize()
     {
-//        ToDoItem item1 = new ToDoItem("Mail birthday card",
-//                "Buy a 30th birthday card for John", LocalDate.of(2016, Month.APRIL, 25));
-//
-//        ToDoItem item2 = new ToDoItem("Doctor's Appointment",
-//                "See Dr. Smith at 123 Main Street. Bring paperwork.", LocalDate.of(2016, Month.MAY, 23));
-//
-//        ToDoItem item3 = new ToDoItem("Pickup Doug at the train station",
-//                "Doug's arrived on March 23 on the 5:00 train", LocalDate.of(2016, Month.MARCH, 23));
-//
-//        ToDoItem item4 = new ToDoItem("Finish design proposal for client",
-//                "I promised Mike I'd email website mockups by Friday 22nd April", LocalDate.of(2016, Month.APRIL, 22));
-//        ToDoItem item5 = new ToDoItem("Pick up dry cleaning",
-//                    "The clothes shuld be ready by Wednesday", LocalDate.of(2016, Month.APRIL, 20));
-//
-//        toDoItems = new ArrayList<ToDoItem>();
-//        toDoItems.add(item1);
-//        toDoItems.add(item2);
-//        toDoItems.add(item3);
-//        toDoItems.add(item4);
-//        toDoItems.add(item5);
-//
-//        TodoData.getInstance().setTodoItems(toDoItems);
+
 
         todoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ToDoItem>() {
             @Override
@@ -70,6 +54,38 @@ public class Controller
         todoListView.getItems().addAll(TodoData.getInstance().getTodoItems());
         todoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         todoListView.getSelectionModel().selectFirst();
+
+    }
+
+    @FXML
+    public void showNewItemDialog()
+    {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        try
+        {
+            Parent root = FXMLLoader.load(getClass().getResource("todoItem.fxml"));
+            dialog.getDialogPane().setContent(root);
+
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Could't load the dialog");
+            ex.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK)
+        {
+            System.out.println("Ok pressed");
+        }
+        else
+        {
+            System.out.println("Cancel pressed");
+        }
 
     }
 
